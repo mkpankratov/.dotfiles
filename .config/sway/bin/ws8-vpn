@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WS="8:vpn"
+
+# 1) Switch to workspace
+swaymsg workspace $WS
+
+# Change waybar bg
+printf 'window#waybar { background: transparent}' > $HOME/.config/waybar/wsbg.css
+

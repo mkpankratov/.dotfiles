@@ -1,0 +1,12 @@
+alias basis="~/Apps/Basis.WorkPlace-client-2.2.6-x86_x64.common.AppImage"
+alias ws="/opt/webstorm/bin/webstorm.sh"
+alias window-switch-dispatcher="~/window-switch-dispatcher.sh"
+alias vi="nvim"
+alias vip="nvim ./package.json"
+alias vit="nvim ./tsconfig.json"
+alias vic="nvim ~/.config/nvim"
+alias rmn="rm -rf node_modules package-lock.json"
+
+alias npm-u-dbo="export NPM_REPO='dbo-npm'"
+alias npm-u-dbo-lib="export NPM_REPO='dbo-npm-lib'"
+alias npm-u-idbo="export NPM_REPO='idbo-npm-pub'"

@@ -1,0 +1,108 @@
+@import "wsbg.css";
+
+#waybar {
+    font-family: "IBM Plex Sans";
+    font-weight: 500;
+}
+
+/* Basic button setup */
+
+#workspaces button {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16px 16px;
+    color: transparent;
+    opacity: 0.7;
+    padding: 8px 4px;
+    border-width: 0;
+    font-size: 0;
+    margin-right: 10px;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+    opacity: 1;
+}
+
+#workspaces button#sway-workspace-1\:firefox {
+    background-image: url("/home/Mpankratov/.config/sway/icons/firefox.png");
+    margin-left: 8px;
+}
+
+#workspaces button#sway-workspace-2\:telegram {
+    background-image: url("/home/Mpankratov/.config/sway/icons/telegram.png");
+    background-size: 17px 17px;
+}
+
+#workspaces button#sway-workspace-8\:vpn {
+    background-image: url("/home/Mpankratov/.config/sway/icons/cisco.png");
+}
+
+#workspaces button#sway-workspace-9\:scratchpad {
+    background-image: url("/home/Mpankratov/.config/sway/icons/obsidian.png");
+    background-size: 20px 20px;
+}
+
+#workspaces button#sway-workspace-10\:misc {
+    background-image: url("/home/Mpankratov/.config/sway/icons/desktop.png");
+    background-size: 20px 20px;
+}
+
+/* Ghostty group */
+
+#workspaces button#sway-workspace-3\:1,
+#workspaces button#sway-workspace-4\:2,
+#workspaces button#sway-workspace-5\:3,
+#workspaces button#sway-workspace-6\:4 {
+    color: transparent;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    background-size: 0;
+}
+
+
+#workspaces button#sway-workspace-3\:1.focused,
+#workspaces button#sway-workspace-4\:2.focused,
+#workspaces button#sway-workspace-5\:3.focused,
+#workspaces button#sway-workspace-6\:4.focused,
+#workspaces button#sway-workspace-7\:5.focused {
+    background-image: url("/home/Mpankratov/.config/sway/icons/ghostty.png");
+    background-size: 19px 19px;
+    background-position: left;
+    color: white;
+    border: 0;
+    min-width: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0 0 0 24px;
+    margin-left: 2px;
+    margin-right: 14px;
+}
+
+
+#workspaces button#sway-workspace-3\:1.focused~button#sway-workspace-7\:5,
+#workspaces button#sway-workspace-4\:2.focused~button#sway-workspace-7\:5,
+#workspaces button#sway-workspace-5\:3.focused~button#sway-workspace-7\:5,
+#workspaces button#sway-workspace-6\:4.focused~button#sway-workspace-7\:5 {
+    background-image: none;
+    font-size: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    background-size: 0;
+}
+
+#workspaces button#sway-workspace-7\:5:not(.focused) {
+    background-image: url("/home/Mpankratov/.config/sway/icons/ghostty.png");
+    background-position: left;
+    background-size: 19px 19px;
+    min-width: 19px;
+    padding: 0 0 0 4px;
+    margin-left: 2px;
+    margin-right: 8px;
+    border: 0;
+    color: transparent;
+}
+
+

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WS="9:scratchpad"
+CLASS="obsidian"
+CMD="obsidian"
+
+# 1) Switch to workspace
+swaymsg workspace $WS
+
+# Change waybar bg
+printf 'window#waybar { background: #363636}' > $HOME/.config/waybar/wsbg.css
+
+# 2) Check if a container with this app_id exists
+if swaymsg -t get_tree | jq -e --arg cls "$CLASS" \
+  '.. | objects | select(.window_properties? and .window_properties.class? == $cls)' >/dev/null; then  # Optional: focus it if it exists
+  swaymsg -q "[class=\"$CLASS\"] focus"
+else
+  # 3) Launch if not running
+  swaymsg -q -- "exec --no-startup-id $CMD"
+fi

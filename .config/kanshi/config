@@ -1,0 +1,13 @@
+profile undocked {
+    output eDP-1 enable
+}
+
+profile docked-dongle {
+    output eDP-1 disable
+    output DP-2 enable
+}
+
+profile docked-office {
+    output eDP-1 disable
+    output HDMI-A-1 enable
+}

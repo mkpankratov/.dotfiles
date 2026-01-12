@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Keybindings often run with a minimal PATH.
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+
+WS='1:firefox'
+TARGET_N=4
+
+# How to spawn an additional Firefox window:
+FIREFOX_SPAWN='firefox --new-window about:blank'
+
+# Match Firefox on Wayland
+FIREFOX_APP_ID='firefox'
+
+get_firefox_con_ids() {
+  swaymsg -t get_tree | jq -r --arg aid "$FIREFOX_APP_ID" '
+    .. | objects
+    | select(.type? == "con")
+    | select(.app_id? == $aid)
+    | .id
+  '
+}
+
+focus_nth_firefox() {
+  local n="$1"
+  local id
+  id="$(get_firefox_con_ids | sed -n "${n}p" || true)"
+  if [[ -n "${id:-}" ]]; then
+    swaymsg -q "[con_id=$id] focus"
+    return 0
+  fi
+  return 1
+}
+
+# 1) Go to workspace 1
+swaymsg -q "workspace \"$WS\""
+
+# Change waybar bg
+printf 'window#waybar { background: #4C4C4C}' > $HOME/.config/waybar/wsbg.css
+
+# 2) Count existing Firefox windows
+current_count="$(get_firefox_con_ids | wc -l | tr -d ' ')"
+
+# 3) Spawn missing windows to reach 4 total
+if (( current_count < TARGET_N )); then
+  missing=$(( TARGET_N - current_count ))
+  for ((i=0; i<missing; i++)); do
+    swaymsg -q "exec --no-startup-id $FIREFOX_SPAWN"
+  done
+fi
+
+# 4) Wait briefly until the 4th window appears, then focus it
+# (poll a few times; no busy loop)
+for _ in {1..40}; do
+  if focus_nth_firefox "$TARGET_N"; then
+    exit 0
+  fi
+  sleep 0.05
+done
+
+# If we get here, we couldn't find/focus the 4th window
+exit 1

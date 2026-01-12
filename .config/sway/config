@@ -1,0 +1,250 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+set $swaydir $HOME/.config/sway
+
+include /etc/sway/config-vars.d/*
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font IBM Plex Sans:regular 15px
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+output * bg ~/.config/sway/bg.jpg fill
+
+### Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Key bindings
+#
+# Basics:
+#
+
+    # Kill focused window
+    bindsym $mod+Shift+q kill
+
+    # Start your launcher
+    bindsym $mod+d exec walker
+    bindsym $mod+Alt+d exec walker --theme "launcher"
+    # exec_always --no-startup-id walker --gapplication-service
+    exec elephant service enable
+    exec systemctl --user start elephant.service
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # Exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+    bindsym Print exec grimshot copy area
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # Ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+
+    default_border none
+    default_floating_border none
+#
+# Workspaces:
+#
+
+    set $ws1 "1:firefox"
+    set $ws2 "2:telegram"
+    set $ws3 "3:1"
+    set $ws4 "4:2"
+    set $ws5 "5:3"
+    set $ws6 "6:4"
+    set $ws7 "7:5"
+    set $ws8 "8:vpn"
+    set $ws9 "9:scratchpad"
+    set $ws10 "10:misc"
+
+    exec_always --no-startup-id swaymsg 'workspace "$ws1"; layout tabbed'
+    # Change waybar bg
+    exec_always printf 'window#waybar { background: #4C4C4C}' > $HOME/.config/waybar/wsbg.css
+
+    assign [app_id="firefox"] $ws1
+    assign [app_id="telegram-desktop_telegram-desktop"] $ws2
+    assign [app_id="com.mitchellh.ghostty.ws3"] $ws3
+    assign [app_id="com.mitchellh.ghostty.ws4"] $ws4
+    assign [app_id="com.mitchellh.ghostty.ws5"] $ws5
+    assign [app_id="com.mitchellh.ghostty.ws6"] $ws6
+    assign [app_id="com.mitchellh.ghostty.ws7"] $ws7
+    assign [app_id="com.cisco.secureclient.gui"] $ws8
+    assign [class="obsidian"] $ws9
+    assign [all] $ws10
+
+    exec /opt/sakura/sakura
+    exec /usr/bin/cshell/launcher
+    exec --no-startup-id firefox
+    exec --no-startup-id telegram-desktop
+    exec ghostty --class=com.mitchellh.ghostty.ws3
+    exec ghostty --class=com.mitchellh.ghostty.ws4
+    exec /opt/cisco/secureclient/bin/vpnui
+    exec --no-startup-id obsidian
+
+    # Switch to workspace
+    bindsym $mod+F1 exec --no-startup-id $swaydir/bin/ws1-firefox-1
+    bindsym $mod+F2 exec --no-startup-id $swaydir/bin/ws1-firefox-2
+    bindsym $mod+F3 exec --no-startup-id $swaydir/bin/ws1-firefox-3
+    bindsym $mod+F4 exec --no-startup-id $swaydir/bin/ws1-firefox-4
+    bindsym $mod+F5 exec --no-startup-id $swaydir/bin/ws1-firefox-5
+    bindsym $mod+F6 exec --no-startup-id $swaydir/bin/ws2-telegram
+    bindsym $mod+F7 exec --no-startup-id $swaydir/bin/ws3-ghostty
+    bindsym $mod+F8 exec --no-startup-id $swaydir/bin/ws4-ghostty
+    bindsym $mod+F9 exec --no-startup-id $swaydir/bin/ws5-ghostty
+    bindsym $mod+F10 exec --no-startup-id $swaydir/bin/ws6-ghostty
+    bindsym $mod+F11 exec --no-startup-id $swaydir/bin/ws7-ghostty
+    bindsym $mod+F12 exec --no-startup-id $swaydir/bin/ws8-vpn
+    bindcode $mod+191 exec --no-startup-id $swaydir/bin/ws9-scratchpad
+    bindcode $mod+192 exec --no-startup-id $swaydir/bin/ws10-misc
+    # Move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace number 1
+    bindsym $mod+Shift+2 move container to workspace number 2
+    bindsym $mod+Shift+3 move container to workspace number 3
+    bindsym $mod+Shift+4 move container to workspace number 4
+    bindsym $mod+Shift+5 move container to workspace number 5
+    bindsym $mod+Shift+6 move container to workspace number 6
+    bindsym $mod+Shift+7 move container to workspace number 7
+    bindsym $mod+Shift+8 move container to workspace number 8
+    bindsym $mod+Shift+9 move container to workspace number 9
+    bindsym $mod+Shift+0 move container to workspace number 10
+
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+bar {
+    swaybar_command waybar
+}
+
+input type:keyboard {
+    xkb_layout "us,ru"
+    xkb_options "grp:win_space_toggle"
+}
+
+include /etc/sway/config.d/*
+
+exec_always --no-startup-id kanshi
+
+for_window [app_id="dev.benz.walker"] border none
+for_window [app_id="dev.benz.walker"] floating enable
+
+#
+# Styling tabs
+#
+
+#                        border      background  text      indicator  child_border
+client.focused           #353535     #353535     #ffffff   #ff0000    #ff0000
+client.focused_inactive  #333333     #222222     #bbbbbb   #333333    #333333
+client.unfocused         #4C4C4C     #4C4C4C     #888888   #333333    #333333
+client.urgent            #900000     #900000     #ffffff   #900000    #900000
+client.focused_tab_title #333333     #222222     #ffffff
+
+titlebar_padding 14 5
+hide_edge_borders smart

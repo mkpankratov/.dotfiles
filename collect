@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+paths=(
+  "$HOME/.config/elephant"
+  "$HOME/.config/kanshi"
+  "$HOME/.config/sway"
+  "$HOME/.config/waybar"
+  "$HOME/.config/walker"
+
+  "$HOME/.config/ghostty"
+  "$HOME/.config/lazygit"
+  "$HOME/.config/nvim"
+  "$HOME/.config/wezterm"
+  "$HOME/.bash_aliases"
+  "$HOME/.bashrc"
+  "$HOME/.fzf.bash"
+  "$HOME/.gitconfig"
+  "$HOME/.editorconfig"
+  "$HOME/.npmrc"
+  "$HOME/default.vil"
+)
+
+# Directory where this script file lives
+dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+for src in "${paths[@]}"; do
+  # Make the destination path relative to $HOME (e.g. $HOME/.config/walker -> .config/walker)
+  rel="${src#"$HOME/"}"
+  dest="$dir/$rel"
+
+  # Ensure parent folders exist (e.g. ./.config)
+  mkdir -p -- "$(dirname -- "$dest")"
+
+  # Replace destination with fresh copy
+  rm -rf -- "$dest"
+  cp -a -- "$src" "$dest"
+done

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WS="6:4"
+APP_ID="com.mitchellh.ghostty.ws6"
+CMD="ghostty --class=com.mitchellh.ghostty.ws6"
+
+# 1) Switch to workspace
+swaymsg workspace $WS
+
+# Change waybar bg
+printf 'window#waybar { background: #1F1F29}' > $HOME/.config/waybar/wsbg.css
+
+# 2) Check if a container with this app_id exists
+if swaymsg -t get_tree | jq -e --arg app "$APP_ID" '.. | objects | select(.app_id? == $app)' >/dev/null; then
+  # Optional: focus it if it exists
+  swaymsg -q "[app_id=\"$APP_ID\"] focus"
+else
+  # 3) Launch if not running
+  swaymsg -q -- "exec --no-startup-id $CMD"
+fi

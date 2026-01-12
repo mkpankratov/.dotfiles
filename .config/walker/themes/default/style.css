@@ -1,0 +1,181 @@
+@define-color window_bg_color #1F1F29;
+@define-color accent_bg_color #54546d;
+@define-color theme_fg_color #CFCAAF;
+@define-color error_bg_color #C34043;
+@define-color error_fg_color #DCD7BA;
+
+* {
+  all: unset;
+}
+
+popover {
+  background: lighter(@window_bg_color);
+  border: none;
+  border-radius: none;
+  padding: 10px;
+}
+
+.normal-icons {
+  -gtk-icon-size: 16px;
+}
+
+.large-icons {
+  -gtk-icon-size: 32px;
+}
+
+scrollbar {
+  opacity: 0;
+}
+
+.box-wrapper {
+  font-family: "IBM Plex Sans";
+  font-weight: 500;
+  background: @window_bg_color;
+  padding: 5px 10px;
+  border-radius: none;
+  border: none;
+}
+
+.preview-box,
+.elephant-hint,
+.placeholder {
+  color: @theme_fg_color;
+}
+
+.box {
+}
+
+.search-container {
+  border-radius: 10px;
+}
+
+.input placeholder {
+  opacity: 0.5;
+}
+.item-image-text {
+    background:red;
+}
+
+.item-image {
+    visibility:hidden;
+    background: yellow;
+    max-width: 0;
+    max-height: 0;
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+}
+
+.input selection {
+  background: lighter(lighter(lighter(@window_bg_color)));
+}
+
+.input {
+  caret-color: @theme_fg_color;
+  color: @theme_fg_color;
+}
+
+.input:focus,
+.input:active {
+}
+
+.content-container {
+};
+
+.placeholder {
+}
+
+.scroll {
+}
+
+.list {
+  color: @theme_fg_color;
+}
+
+child {
+}
+
+.item-box {
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.item-quick-activation {
+  background: alpha(@accent_bg_color, 0.25);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* child:hover .item-box, */
+child:selected .item-box {
+  background: alpha(@accent_bg_color, 0.25);
+}
+
+.item-text-box {
+}
+
+.item-subtext {
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.providerlist .item-subtext {
+  font-size: unset;
+  opacity: 0.75;
+}
+
+.item-image-text {
+  font-size: 28px;
+}
+
+.preview {
+  border: 1px solid alpha(@accent_bg_color, 0.25);
+  /* padding: 10px; */
+  border-radius: 10px;
+  color: @theme_fg_color;
+}
+
+.calc .item-text {
+  font-size: 24px;
+}
+
+.calc .item-subtext {
+}
+
+.symbols .item-image {
+  font-size: 24px;
+}
+
+.todo.done .item-text-box {
+  opacity: 0.25;
+}
+
+.todo.urgent {
+  font-size: 24px;
+}
+
+.todo.active {
+  font-weight: bold;
+}
+
+.bluetooth.disconnected {
+  opacity: 0.5;
+}
+
+.preview .large-icons {
+  -gtk-icon-size: 64px;
+}
+
+.error {
+  padding: 10px;
+  background: @error_bg_color;
+  color: @error_fg_color;
+}
+
+:not(.calc).current {
+  font-style: italic;
+}
+
+.preview-content.archlinuxpkgs {
+  font-family: monospace;
+}
